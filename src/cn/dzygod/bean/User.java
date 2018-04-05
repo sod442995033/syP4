@@ -17,6 +17,15 @@ public class User {
         this.remark = remark;
     }
 
+    public User(String userName, Integer age) {
+        this.userName = userName;
+        this.age = age;
+    }
+
+    public User(String userName) {
+        this.userName = userName;
+    }
+
     public String getUserName() {
         return userName;
     }
