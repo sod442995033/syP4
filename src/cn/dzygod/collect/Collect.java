@@ -4,6 +4,7 @@ import cn.dzygod.bean.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 public class Collect {
 
@@ -12,9 +13,9 @@ public class Collect {
 //        methodTest();
 //        primaryConvert();
 //        referenceConvert();
-        haveAllMethod();
-
-
+//        haveAllMethod();
+//        itrtString();
+        itrtObj();
     }
 
     private static void haveAllMethod() {
@@ -120,4 +121,39 @@ public class Collect {
         System.out.println(zhang + "\n" + li);
 
     }
+
+    //迭代
+    public static void itrtString() {
+        Collection c = new ArrayList();
+
+        c.add("a");
+        c.add("b");
+        c.add("c");
+        c.add("d");
+
+        Iterator it = c.iterator();           //获取迭代器对象
+        while (it.hasNext()) {               //判断指针是否不等于集合长度,如果二者相同返回false.这样做是为了防止触发NoSuchElementException()
+            System.out.println(it.next());                   //调用next()方法后,会使指针+1
+        }
+    }
+
+
+    //迭代bean对象
+    public static void itrtObj() {
+        Collection c = new ArrayList();
+
+        c.add(new User("张三", 12, "没问题"));   //实际上是Object obj = new User("张三", 12, "没问题")
+        c.add(new User("李四", 12, "年轻人"));
+        c.add(new User("赵武", 12, "年纪其实一样"));
+
+        Iterator iterator = c.iterator();
+        while (iterator.hasNext()) {
+//            System.out.println(iterator.next());   //迭代不了对象中的方法,父类无法指向子类具体方法
+            User user = (User) iterator.next();      //向下转型
+            System.out.println(user.getRemark() + "\t" + user.getAge() + "\t" + user.getUserName() + "\n");
+        }
+
+    }
+
+
 }
