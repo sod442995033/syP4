@@ -2,10 +2,7 @@ package cn.dzygod.list;
 
 import cn.dzygod.bean.User;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * @Author: dzyGod
@@ -28,8 +25,9 @@ public class ListTest {
 //        example();
 //        example2();
 //        testExample();
+//        testPrevious();
 
-        testPrevious();
+        new LinkedList();
     }
 
     private static void testPrevious() {
