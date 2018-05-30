@@ -2,6 +2,8 @@ package cn.dzygod.collect;
 
 import cn.dzygod.bean.User;
 
+import java.io.InputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,8 +17,9 @@ public class Collect {
 //        referenceConvert();
 //        haveAllMethod();
 //        itrtString();
-        itrtObj();
+//        itrtObj();
     }
+
 
     private static void haveAllMethod() {
         /**
@@ -145,7 +148,6 @@ public class Collect {
         c.add(new User("张三", 12, "没问题"));   //实际上是Object obj = new User("张三", 12, "没问题")
         c.add(new User("李四", 12, "年轻人"));
         c.add(new User("赵武", 12, "年纪其实一样"));
-
         Iterator iterator = c.iterator();
         while (iterator.hasNext()) {
 //            System.out.println(iterator.next());   //迭代不了对象中的方法,父类无法指向子类具体方法
