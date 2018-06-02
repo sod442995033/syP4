@@ -51,10 +51,11 @@ public class CollectionsPra {
         System.out.println(strings);
     }
 
+    /**
+     * 倒序
+     */
     private static void colDesc() {
-        /**
-         * 倒序
-         */
+
         ArrayList<String> strings = new ArrayList<>();
         strings.add("a");
         strings.add("c");
