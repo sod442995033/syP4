@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 public class IoTest {
 
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
 //        test();
 //        fileOutConstru();
 //        copyOne();
@@ -29,22 +29,21 @@ public class IoTest {
     }
 
     /**
-     *  1.7版本的标准异常处理代码
+     * 1.7版本的标准异常处理代码
      *
-     *  在try的小括号范围中的类,都实现了AutoCloseable接口,都重写了close()方法
-     *  try的大括号范围中执行完会执行小括号close()方法,关闭流
+     * 在try的小括号范围中的类,都实现了AutoCloseable接口,都重写了close()方法
+     * try的大括号范围中执行完会执行小括号close()方法,关闭流
      */
     private static void newStandardProcessing() throws IOException {
         String path = "输出.txt";
-        try(
+        try (
                 FileInputStream inputStream = new FileInputStream(path);
                 FileOutputStream outputStream = new FileOutputStream(path);
-            )
-        {
+        ) {
             int len;
             byte[] bytes = new byte[1024 * 2];
-            while ((len = inputStream.read(bytes)) == -1){
-                outputStream.write(bytes,0,len);
+            while ((len = inputStream.read(bytes)) == -1) {
+                outputStream.write(bytes, 0, len);
             }
         }
     }
@@ -63,17 +62,17 @@ public class IoTest {
 
             int len;
             byte[] arr = new byte[1024 * 8];
-            while ((len = inputStream.read(arr)) != -1){
-                outputStream.write(arr,0,len);
+            while ((len = inputStream.read(arr)) != -1) {
+                outputStream.write(arr, 0, len);
             }
         } finally {
 
             try {
-                if (inputStream != null){
+                if (inputStream != null) {
                     inputStream.close();
                 }
             } finally {
-                if (outputStream != null){
+                if (outputStream != null) {
                     outputStream.close();
                 }
             }
@@ -82,8 +81,8 @@ public class IoTest {
 
     /**
      * 字节流写中文出现的问题
-     *      字节流直接操作字节,所以写中文必须将字符串转换为字节数组
-     *      写出回车换行write("\r\n".getBytes());
+     * 字节流直接操作字节,所以写中文必须将字符串转换为字节数组
+     * 写出回车换行write("\r\n".getBytes());
      */
     private static void garbledOutSteam() throws IOException {
         File file = new File("文件夹.txt/nihao.txt");
@@ -96,7 +95,7 @@ public class IoTest {
 
     /**
      * 字节流读中文出现的问题
-     *         字节流读中文的时候,有可能会读到半个中文,造成乱码
+     * 字节流读中文的时候,有可能会读到半个中文,造成乱码
      *
      * @throws IOException
      */
@@ -107,11 +106,11 @@ public class IoTest {
         byte[] arrs = new byte[2];
         FileInputStream inputStream = new FileInputStream("文件夹.txt/nihao.txt");
         int len;
-        while ((len = inputStream.read(arrs)) != -1){
+        while ((len = inputStream.read(arrs)) != -1) {
             /**
              *  打印出乱码,因为2个字节只能读取中文字符的一部分,转换成字符串自然会出现乱码
              */
-            System.out.println(new String(arrs,0,len));
+            System.out.println(new String(arrs, 0, len));
         }
         inputStream.close();
     }
@@ -129,7 +128,7 @@ public class IoTest {
         BufferedOutputStream stream1 = new BufferedOutputStream(new FileOutputStream("图片.png"));
 
         int len;
-        while((len = stream.read()) != -1){
+        while ((len = stream.read()) != -1) {
             stream1.write(len);
         }
 
@@ -141,20 +140,20 @@ public class IoTest {
 
     /**
      * 带缓冲区的字节传输
-     *  缓冲思想:
-     *      字节流一次读写一个数组的速度明显比一次读取一个字节的速度快很多
-     *      这是因为加入了数组这样的缓冲区效果,java本身在设计的时候
-     *      也考虑了这样的设计思想(装饰设计模式),所以提供了字符缓冲流
-     *  BufferedInputStream
-     *      BufferedInputStream内置了一个缓冲区(数组)
-     *      从BufferedInputStream中读取一个字节时
-     *      BufferedInputStream会一次性从文件中读取8192个,存在缓冲区里,返回给程序一个
-     *      程序再次读取时,就不用找文件了,直接从缓冲区获取
-     *      知道缓冲区所有都被使用过,才重新从文件中读取8192个
-     *  BufferedOutputStream
-     *      BufferedOutputStream内置了一个缓冲区(数组)
-     *      程序向流中写出字节时,不会直接写到文件,先写到缓冲区中
-     *      直到缓冲区写满,BufferedOutputStream才会把缓冲区的文件一次性写到文件里
+     * 缓冲思想:
+     * 字节流一次读写一个数组的速度明显比一次读取一个字节的速度快很多
+     * 这是因为加入了数组这样的缓冲区效果,java本身在设计的时候
+     * 也考虑了这样的设计思想(装饰设计模式),所以提供了字符缓冲流
+     * BufferedInputStream
+     * BufferedInputStream内置了一个缓冲区(数组)
+     * 从BufferedInputStream中读取一个字节时
+     * BufferedInputStream会一次性从文件中读取8192个,存在缓冲区里,返回给程序一个
+     * 程序再次读取时,就不用找文件了,直接从缓冲区获取
+     * 知道缓冲区所有都被使用过,才重新从文件中读取8192个
+     * BufferedOutputStream
+     * BufferedOutputStream内置了一个缓冲区(数组)
+     * 程序向流中写出字节时,不会直接写到文件,先写到缓冲区中
+     * 直到缓冲区写满,BufferedOutputStream才会把缓冲区的文件一次性写到文件里
      */
     private static void bufferedCopy() throws IOException {
 
@@ -169,11 +168,9 @@ public class IoTest {
 
 
     /**
-     *
      * 用小数组去拷贝
      * 1024字节的整数倍
-     *
-     * */
+     */
     private static void copyFinal() throws IOException {
 
         FileInputStream stream = new FileInputStream("屏幕截图(4).png");
@@ -183,9 +180,9 @@ public class IoTest {
         byte[] bytes = new byte[1024 * 1024];
 
         int len;
-        while((len = stream.read(bytes)) != -1){
+        while ((len = stream.read(bytes)) != -1) {
             //写入byte数组从0开始len长度的字节
-            stream1.write(bytes,0,len);
+            stream1.write(bytes, 0, len);
         }
 
         stream.close();
@@ -194,7 +191,7 @@ public class IoTest {
 
 
     /**
-     *  读取多余字节的方法
+     * 读取多余字节的方法
      */
     private static void copyFour() throws IOException {
 
@@ -205,9 +202,9 @@ public class IoTest {
 
         //存储有效字节数
         int len;
-        while((len = istream.read(bytes)) != -1){
+        while ((len = istream.read(bytes)) != -1) {
             //写入bytes数组中从0开始len长度的字节
-            stream.write(bytes,0,len);
+            stream.write(bytes, 0, len);
         }
 
         istream.close();
@@ -221,7 +218,6 @@ public class IoTest {
      * 因为一个byte存储2个字节,第二次只有一个有效字节,会覆盖第一个,但是第二个却没有变
      */
     private static void copyThree() throws IOException {
-
 
 
         byte[] bytes = new byte[2];
@@ -252,8 +248,8 @@ public class IoTest {
         byte[] bytes = new byte[stream.available()];
 
         FileOutputStream stream1 = new FileOutputStream("复制1.png");
-        while (stream.read(bytes) != -1){
-             stream1.write(bytes);
+        while (stream.read(bytes) != -1) {
+            stream1.write(bytes);
         }
 
         stream.close();
@@ -263,8 +259,8 @@ public class IoTest {
 
     /**
      * IO流的文件复制
-     *  逐个字节的拷贝,逐个字节进行读写
-     *  这种方式比较慢
+     * 逐个字节的拷贝,逐个字节进行读写
+     * 这种方式比较慢
      */
     private static void copyOne() throws IOException {
 
@@ -272,7 +268,7 @@ public class IoTest {
         FileOutputStream stream1 = new FileOutputStream("复制.png");
 
         int b;
-        while ((b = stream.read()) != -1){
+        while ((b = stream.read()) != -1) {
             stream1.write(b);
         }
         stream.close();
@@ -282,6 +278,7 @@ public class IoTest {
 
     /**
      * fileOutputStream的构造
+     *
      * @throws IOException
      */
     private static void fileOutConstru() throws IOException {
@@ -302,7 +299,7 @@ public class IoTest {
          * 想要在不清空文件的前提下续写,需要在使用该构造器
          */
 
-        FileOutputStream stream = new FileOutputStream("输出.txt",true);
+        FileOutputStream stream = new FileOutputStream("输出.txt", true);
 
         stream.write(97);
         stream.write(98);
@@ -314,15 +311,15 @@ public class IoTest {
     /**
      * io流常用父类
      * 字节流的抽象父类
-     *  InputStream
-     *  OutputStream
+     * InputStream
+     * OutputStream
      * 字符流的抽象父类
-     *  Reader
-     *  Writer
-     *  IO程序书写
-     *  使用前，导入IO包中的类
-     *  使用时，进行IO异常处理
-     *  使用后，释放资源
+     * Reader
+     * Writer
+     * IO程序书写
+     * 使用前，导入IO包中的类
+     * 使用时，进行IO异常处理
+     * 使用后，释放资源
      */
     private static void test() throws IOException {
 
@@ -331,7 +328,7 @@ public class IoTest {
         InputStream stream = new FileInputStream("测试.txt");
         //当读出的数值不是-1，继续执行循环体
         int b;
-        while ((b = stream.read()) != -1){
+        while ((b = stream.read()) != -1) {
             System.out.println(b);
         }
 
@@ -351,7 +348,6 @@ public class IoTest {
         //关闭释放资源
         stream.close();*/
     }
-
 
 
 }
