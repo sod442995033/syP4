@@ -3,7 +3,8 @@ package cn.dzygod.io;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.function.Consumer;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * @author dzyGod
@@ -18,25 +19,54 @@ public class IoPra2 {
 //        docInversion();
 //        lineNumberTest();
 //        transformCharset();
-
+//        statistics();
 
     }
 
     /**
+     * 获取一个文本文件中每一个字符出现的个数 ,将其结果写在times.txt中
+     * <p>
+     * 分析:
+     * 1.新建字符包装读写流对象
+     * 2.新建双链集合对象,以键来存储字符,值来存储出现的次数(每出现一次加一)
+     * 3.读取指定文本文档,读取一个字符就循环查询整个文本文件,记录出现次数.add()到双链集合中
+     * 4.关闭流
+     */
+    private static void statistics() throws IOException {
+
+        BufferedReader iopro2 = new BufferedReader(new InputStreamReader(new FileInputStream("iopro2.txt"), "utf-8"));
+        HashMap<Character, Integer> map = new HashMap(50);
+
+        int len;
+        while ((len = iopro2.read()) != -1) {
+            char c = (char) len;
+            map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        }
+
+        Set<Character> characters = map.keySet();
+        for (Character character : characters) {
+            Integer integer = map.get(character);
+            System.out.println(character + ":" + integer);
+        }
+
+        iopro2.close();
+    }
+
+    /**
      * 用指定编码表进行高效读写
-     *
+     * <p>
      * unicode编码表一个中文3个字节，gbk一个中文2个字节。
      * 所以不指定编码就会出现乱码
-     *
+     * <p>
      * 用utf-8编码字符集进行读取
      * 再将读取数据用gbk编码表进行写出到文本文件中
      */
     private static void transformCharset() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("utf-8.txt"),"utf-8"));
-        BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter(new FileOutputStream("gbk.txt"), "gbk"));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("utf-8.txt"), "utf-8"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("gbk.txt"), "gbk"));
 
         int len;
-        while ((len = bufferedReader.read()) != -1){
+        while ((len = bufferedReader.read()) != -1) {
             bufferedWriter.write(len);
         }
 

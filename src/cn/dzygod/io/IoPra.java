@@ -14,7 +14,7 @@ public class IoPra {
 //        encryption();
 //        copyPath();
         /**
-         *  将键盘录入的字符输,
+         *  将键盘录入的字符
          *  输入到指定的txt文件内
          *
          */
