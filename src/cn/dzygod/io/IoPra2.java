@@ -2,15 +2,14 @@ package cn.dzygod.io;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author dzyGod
  * @description 字符流的操作练习
  */
 public class IoPra2 {
+
     public static void main(String[] args) throws IOException {
 //        fileReaderTest();
 //        fileWriterTest();
@@ -20,7 +19,33 @@ public class IoPra2 {
 //        lineNumberTest();
 //        transformCharset();
 //        statistics();
+//        numberOfTips();
 
+
+    }
+
+
+    /**
+     * 软件使用次数提示
+     * 开始是五次,每次打开减一次.到零提示您的使用次数已用完
+     */
+    private static void numberOfTips() throws IOException {
+
+        BufferedReader reader = new BufferedReader(new FileReader("text.txt"));
+
+        String line = reader.readLine();
+
+        //对获取到的数值进行判断,如果大于0就将次数进行提示,否则提示试用次数已用尽
+        Integer frequency;
+        if ((frequency = Integer.parseInt(line)) > 0) {
+            System.out.println("您还有" + frequency-- + "次试用次数!");
+            //新建String参数实例,会初始化文本文件,为null
+            FileWriter writer = new FileWriter("text.txt");
+            writer.write(frequency.toString());
+            writer.close();
+        } else {
+            System.out.println("您的次数已用尽,请充值!");
+        }
     }
 
     /**
@@ -34,14 +59,16 @@ public class IoPra2 {
      */
     private static void statistics() throws IOException {
 
-        BufferedReader iopro2 = new BufferedReader(new InputStreamReader(new FileInputStream("iopro2.txt"), "utf-8"));
-        HashMap<Character, Integer> map = new HashMap(50);
-
+        Map<Character, Integer> map = new TreeMap();
         int len;
+
+        BufferedReader iopro2 = new BufferedReader(
+                new InputStreamReader(new FileInputStream("iopro2.txt"), "utf-8"));
         while ((len = iopro2.read()) != -1) {
             char c = (char) len;
             map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
         }
+        iopro2.close();
 
         Set<Character> characters = map.keySet();
         for (Character character : characters) {
@@ -49,7 +76,6 @@ public class IoPra2 {
             System.out.println(character + ":" + integer);
         }
 
-        iopro2.close();
     }
 
     /**
