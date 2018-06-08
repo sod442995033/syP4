@@ -1,6 +1,9 @@
 package cn.dzygod.io;
 
 
+import cn.dzygod.bean.StudentPra;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import java.io.*;
 import java.util.*;
 
@@ -10,7 +13,16 @@ import java.util.*;
  */
 public class IoPra2 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        /**
+         * 序列化版本号,流生成时会自动生成.
+         *  流写入会一起写入文件,在读取时会对比版本号,
+         *  版本号不符则会抛出java.io.InvalidClassException异常
+         *  不加也是可以的,这个常量的作用仅仅是为了异常有更高的可读性
+         *
+         *         private static final long serialVersionUID = 2L;
+         */
+
 //        fileReaderTest();
 //        fileWriterTest();
 //        bufferTest();
@@ -20,8 +32,215 @@ public class IoPra2 {
 //        transformCharset();
 //        statistics();
 //        numberOfTips();
+//        byteStream();
+//        byteStreamGarbled();
+//        randomAccessFile();
+//        objectOutTest();
+//        objectInputTest();
+//        optimization();
+//        dataIO();
+//        print();
 
 
+
+    }
+
+
+
+
+    /**
+     * 数据输入输出流
+     * DataInputStream(),DataOutputStream()
+     */
+    private static void dataIO() throws IOException {
+        /**
+         * 为什么要使用数据输入输出流?
+         *  输出流的会将数据放进4个8位的int数组中,在写出的时候截取掉前三个八位
+         *  997在int中应该是                         00000000 00000000 00000011 11100101
+         *  在写入文件时会截取最后一个八位 11100101,变成 00000000 00000000 00000000 11100101 造成精度缺失
+         */
+
+    /*    FileOutputStream outputStream = new FileOutputStream("D.txt");
+        outputStream.write(997);
+        outputStream.write(998);
+        outputStream.write(999);
+
+        outputStream.close();
+
+        FileInputStream inputStream = new FileInputStream("D.txt");
+
+        int read = inputStream.read();
+        int read1 = inputStream.read();
+        int read2 = inputStream.read();
+
+        inputStream.close();
+        *//**
+         * 输出
+         * 229  00000000 00000000 00000000 11100101
+         * 230  00000000 00000000 00000000 11100110
+         * 231  00000000 00000000 00000000 11100111
+         *//*
+        System.out.println(read);
+        System.out.println(read1);
+        System.out.println(read2);
+*/
+
+        /**
+         * 解决方案:
+         *   使用DataInputStream与DataOutputStream
+         *   不会遗失精度
+         * 注意:
+         *   需要在输入与输出时使用一致的方法,比如writeInt()对应的就是readInt();
+         */
+
+        DataOutputStream stream = new DataOutputStream(new FileOutputStream("D.txt"));
+        stream.writeInt(997);
+        stream.writeInt(998);
+        stream.writeInt(999);
+
+        stream.close();
+
+        DataInputStream inputStream1 = new DataInputStream(new FileInputStream("D.txt"));
+
+        int read3 = inputStream1.readInt();
+        int read4 = inputStream1.readInt();
+        int read5 = inputStream1.readInt();
+
+        System.out.println(read3);
+        System.out.println(read4);
+        System.out.println(read5);
+
+        inputStream1.close();
+
+    }
+
+    /**
+     * 对象操作流优化
+     * 存在集合中,
+     * 一次写入,一次读取
+     */
+    private static void optimization() throws IOException, ClassNotFoundException {
+
+        ArrayList<StudentPra> pras = new ArrayList<>();
+        pras.add(new StudentPra("张三", 10, 2, 3));
+        pras.add(new StudentPra("李四", 10, 2, 3));
+        pras.add(new StudentPra("王五", 10, 2, 3));
+        pras.add(new StudentPra("赵六", 10, 2, 3));
+        pras.add(new StudentPra("马奇", 10, 2, 3));
+        pras.add(new StudentPra("孙八", 10, 2, 3));
+
+        ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream("O.txt"));
+        stream.writeObject(pras);
+
+        stream.close();
+
+        ObjectInputStream stream1 = new ObjectInputStream(new FileInputStream("O.txt"));
+        ArrayList<StudentPra> pras1 = (ArrayList<StudentPra>) stream1.readObject();
+        for (StudentPra pra : pras1) {
+            System.out.println(pra);
+        }
+
+        stream1.close();
+    }
+
+    /**
+     * 对象对象输入流
+     */
+    private static void objectInputTest() throws IOException, ClassNotFoundException {
+        ObjectInputStream stream = new ObjectInputStream(new FileInputStream("O.txt"));
+        StudentPra pra = (StudentPra) stream.readObject();
+        StudentPra pra1 = (StudentPra) stream.readObject();
+//        当文件读取到了末尾,继续读取会出现EOFException异常(end of file)
+//        StudentPra pra2 = (StudentPra) stream.readObject();
+
+        System.out.println(pra);
+        System.out.println(pra1);
+//        System.out.println(pra2);
+    }
+
+    /**
+     * 对象输出流
+     */
+    private static void objectOutTest() throws IOException {
+        StudentPra student = new StudentPra("李四", 10, 20, 30);
+        StudentPra student1 = new StudentPra("张三", 10, 20, 30);
+
+        ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream("O.txt"));
+        stream.writeObject(student);
+        stream.writeObject(student1);
+
+        stream.close();
+    }
+
+    /**
+     * 随机访问流和读写数据
+     * RandomAccessFile概述
+     * RandomAccessFile类不属于流,是Object的子类,但是它融合了InputStream与OutoutStream的功能
+     * 支持随机访问文件的读取和写入
+     */
+    private static void randomAccessFile() throws IOException {
+
+        //第二个参数
+        RandomAccessFile file = new RandomAccessFile("g.txt", "rw");
+        //在指定位置设置指针
+        file.seek(10);
+
+//        file.write(97);
+//        int read = file.read();
+//        System.out.println((char)read);
+
+
+        file.close();
+    }
+
+    /**
+     * 定义一个文件输入流,调用read(byte[])方法.将指定txt文件的内容打印出来(byte数组大小限制为五)
+     * 对在内存中的内存输出流,进行全部一起解码,这样就不会出现只解码半个,也就不会出先乱码了
+     */
+    private static void byteStreamGarbled() throws IOException {
+
+        FileInputStream inputStream = new FileInputStream("text.txt");
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        int len;
+        byte[] bytes = new byte[5];
+        while ((len = inputStream.read(bytes)) != -1) {
+            stream.write(bytes, 0, len);
+        }
+
+        inputStream.close();
+        System.out.print(stream);
+
+        stream.close();
+    }
+
+    /**
+     * 内存输出流
+     * 可以解决读取中文字符乱码的问题
+     * 将数据全部读取到内存中一个可以自动增长的byte数组中(这样一来就不存在自定义byte数组,切分中文字符出现乱码的问题了)
+     * 再使用输出流写出到指定文件
+     */
+    private static void byteStream() throws IOException {
+
+        FileInputStream inputStream = new FileInputStream("text.txt");
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        int len;
+        while ((len = inputStream.read()) != -1) {
+            stream.write(len);
+        }
+
+        inputStream.close();
+
+        //根据操作系统默认码表进行转换
+        byte[] bytes = stream.toByteArray();
+
+
+        FileOutputStream outputStream = new FileOutputStream("test.txt");
+        outputStream.write(bytes);
+
+        stream.close();
+        outputStream.close();
     }
 
 
