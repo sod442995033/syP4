@@ -1,5 +1,6 @@
 package cn.dzygod.io;
 
+import java.io.*;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -10,9 +11,38 @@ import java.util.Properties;
  */
 public class ProperOverview {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 //        test1();
 //        test2();
+//        test3();
+
+    }
+
+    /**
+     * properties的读写
+     * hashtable为底层,所以写出的顺序不一致
+     *
+     */
+    private static void test3() throws IOException {
+        Properties properties = new Properties();
+        properties.load(new InputStreamReader(new FileInputStream("test.properties"),"gbk"));
+        String name = (String)properties.get("name");
+        String age = (String)properties.get("age");
+        String gender = (String)properties.get("gender");
+
+        System.out.println(name);
+        System.out.println(age);
+        System.out.println(gender);
+
+
+        Properties outProperties = new Properties();
+
+        outProperties.setProperty("height","180cm");
+        outProperties.setProperty("name","Tony");
+        outProperties.setProperty("age","19");
+        outProperties.setProperty("gender","man");
+        //第二个参数用来描述文件列表,不描述给个null即可
+        outProperties.store(new FileOutputStream("test.properties"),null);
     }
 
     /**

@@ -23,6 +23,7 @@ public class SystemInOut {
 
     /**
      *  两种方式实现键盘录入
+     *  都是对标准输入流进行了装饰,使用Scanner装饰类功能会更多一些
      */
     private static void keyboard() {
 
@@ -89,8 +90,6 @@ public class SystemInOut {
          *  1.什么是打印流
          *      该流可以很方便的将对象的toString()结果输出,并且加上自动换行,而且可以使用自动刷出的模式
          *      System.out就是一个PrintStream(字节流),其默认向控制台输出信息
-         *
-         *
          */
 /*
         PrintStream out = System.out;
