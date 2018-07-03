@@ -1,8 +1,6 @@
 package cn.dzygod.file;
 
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -15,7 +13,10 @@ import java.util.Scanner;
  */
 public class FilePra {
 
-    public static void main(String[] args) throws IOException {
+
+    private static final int INT = 1000;
+
+    public static void main(String[] args) throws IOException, InterruptedException {
 //        praOne();
 //        filter();
 //        suffixJava();
@@ -27,8 +28,114 @@ public class FilePra {
 //        allZero();
 //        lastZero();
 //        getLuckNum(8, 3);
+//        joinTest();
+//        yieldTest();
+//        priorityTest();
+
+        /**
+         * 同步锁
+         */
 
 
+
+    }
+
+    /**
+     * 设置优先级
+     *
+     */
+    private static void priorityTest() {
+        new Thread(() -> {
+            for (int i = 0; i < INT; i++) {
+                Thread thread = Thread.currentThread();
+                //设置线程优先级
+                thread.setPriority(Thread.MIN_PRIORITY);
+                System.out.println(thread.getName() + "......aaaaaaaaaaa");
+            }
+        }).start();
+
+        new Thread(() -> {
+            for (int i = 0; i < INT; i++) {
+                Thread thread = Thread.currentThread();
+                //设置线程优先级
+                thread.setPriority(Thread.MAX_PRIORITY);
+                System.out.println(thread.getName() + "......bbbbbbbbbb");
+            }
+        }).start();
+    }
+
+    /**
+     * 礼让线程
+     * 当前线程主动让出cpu
+     */
+    private static void yieldTest() {
+        int anInt = 100;
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < anInt; i++) {
+                    System.out.println(getName() + "....11111111111111111");
+                }
+            }
+        };
+
+
+        Thread thread1 = new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < anInt; i++) {
+                    System.out.println(getName() + "........22222222");
+                    if (i % 10 == 0) {
+                        Thread.yield();
+                    }
+                    System.out.println("没有礼让");
+                }
+            }
+        };
+
+
+        thread.start();
+        thread1.start();
+    }
+
+
+    /**
+     * join()方法的练习
+     */
+    private static void joinTest() {
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+
+                for (int i = 0; i < 100; i++) {
+                    System.out.println(getName() + "......11111111");
+                }
+                super.run();
+            }
+        };
+
+        Thread t2 = new Thread() {
+
+            @Override
+            public void run() {
+                for (int i = 0; i < 50; i++) {
+                    if (i == 10) {
+                        try {
+                            //join插入的线程走完才能继续运行当前线程,参数是指定加入时间一毫秒
+                            t1.join(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(getName() + "............222222222222");
+                }
+                super.run();
+            }
+        };
+
+        t1.start();
+        t2.start();
     }
 
     /**
@@ -36,7 +143,7 @@ public class FilePra {
      * @param var    进行淘汰的循环次数
      * @return
      * @title 约瑟夫环
-     * @description 两个成员变量, 一个代表当前操作数, 一个代表下标
+     * @description 两个局部变量, 一个代表当前操作数, 一个代表下标
      */
     private static Integer getLuckNum(Integer allNum, Integer var) {
 
