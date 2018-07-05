@@ -1,8 +1,5 @@
-package cn.dzygod.file;
+package cn.dzygod.thread;
 
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import org.junit.Test;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -14,7 +11,7 @@ import java.util.Scanner;
  * @Date: 2018/5/15 10:47
  * @Description: *
  */
-public class FilePra {
+public class ThreadPra2 {
 
 
     private static final int INT = 1000;
@@ -31,8 +28,50 @@ public class FilePra {
 //        allZero();
 //        lastZero();
 //        getLuckNum(8, 3);
+//        joinTest();
+//        yieldTest();
+//        priorityTest();
+//        synchronizedTest1();
+        ThreadPra2 pra = new ThreadPra2();
+        pra.print1();
+        pra.print2();
     }
 
+
+    /**
+     * 非静态同步方法锁
+     * 加密参数,传入的是当前对象
+     */
+        public synchronized void print1() {
+            new Thread(() -> {
+                for (int i = 0; i < INT; i++) {
+                    Thread thread = Thread.currentThread();
+                    System.out.print("1");
+                    System.out.print("2");
+                    System.out.print("3");
+                    System.out.print("4");
+                    System.out.print("\r\n");
+                }
+            }).start();
+
+
+        }
+
+    public void print2() {
+        new Thread(() -> {
+            synchronized (this){
+                for (int i = 0; i < INT; i++) {
+                    Thread thread = Thread.currentThread();
+                    System.out.print("a");
+                    System.out.print("b");
+                    System.out.print("c");
+                    System.out.print("d");
+                    System.out.print("\r\n");
+                }
+            }
+        }).start();
+
+    }
 
 
 
