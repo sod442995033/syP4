@@ -1,4 +1,4 @@
-package top.dzygod.designpatterns.simpleFactory;
+package top.dzygod.designpatterns.simplefactory;
 
 /**
  * @Author: dingziyuan
