@@ -143,7 +143,9 @@ public class Collect {
     public static void itrtObj() {
         Collection c = new ArrayList();
 
-        c.add(new User("张三", 12, "没问题"));   //实际上是Object obj = new User("张三", 12, "没问题")
+        //实际上是Object obj = new User("张三", 12, "没问题")
+        c.add(new User("张三", 12, "没问题"));
+
         c.add(new User("李四", 12, "年轻人"));
         c.add(new User("赵武", 12, "年纪其实一样"));
         Iterator iterator = c.iterator();
