@@ -1,4 +1,4 @@
-package top.dzygod.jdk8.practice.chapterFive;
+package top.dzygod.jdk8.practice.chapterfive;
 
 /**
  * @Author: dingziyuan

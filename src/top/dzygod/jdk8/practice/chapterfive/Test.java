@@ -1,13 +1,11 @@
-package top.dzygod.jdk8.practice.chapterFive;
+package top.dzygod.jdk8.practice.chapterfive;
 
-import top.dzygod.jdk8.practice.chapterFour.Dish;
+import top.dzygod.jdk8.practice.chapterfour.Dish;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @Author: dingziyuan

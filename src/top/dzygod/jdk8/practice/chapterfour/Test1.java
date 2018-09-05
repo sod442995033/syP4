@@ -1,10 +1,9 @@
-package top.dzygod.jdk8.practice.chapterFour;
+package top.dzygod.jdk8.practice.chapterfour;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**

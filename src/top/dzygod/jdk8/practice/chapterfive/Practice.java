@@ -1,11 +1,10 @@
-package top.dzygod.jdk8.practice.chapterFive;
+package top.dzygod.jdk8.practice.chapterfive;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @Author: dingziyuan
