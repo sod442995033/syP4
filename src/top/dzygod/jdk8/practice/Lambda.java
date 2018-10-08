@@ -10,7 +10,7 @@ public class Lambda {
         Runnable runnable = () -> {
             System.out.println("我是先实例化之后再执行的!");
             return;
-        };
+    };
 
         process(runnable);
         process(() -> System.out.println("我是lambda传递的!"));

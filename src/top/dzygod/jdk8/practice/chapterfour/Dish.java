@@ -1,5 +1,7 @@
 package top.dzygod.jdk8.practice.chapterfour;
 
+import top.dzygod.jdk8.practice.chaptersix.Test1;
+
 /**
  * @Author: dingziyuan
  * @Date: 2018/8/27 9:43
@@ -40,6 +42,16 @@ public class Dish {
         return this.name;
     }
 
-    public enum Type { MEAT, FISH, OTHER }
+    public enum Type {MEAT, FISH, OTHER}
+
+    public Test1.CaloricLevel getCaloricLevel() {
+        if (this.getCalories() <= 400) {
+            return Test1.CaloricLevel.DIET;
+        } else if (this.getCalories() <= 700) {
+            return Test1.CaloricLevel.NORMAL;
+        } else {
+            return Test1.CaloricLevel.FAT;
+        }
+    }
 
 }
